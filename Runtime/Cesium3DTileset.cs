@@ -256,6 +256,59 @@ namespace CesiumForUnity
             }
         }
 
+
+        [SerializeField]
+        private float _screenSpaceErrorDistancePer = 60.0f;
+
+        /// <summary>
+        /// "根据摄像机到渲染块的距离，放大Maximum Screen Space Error."
+        /// "值越小，相同距离放大的倍数越大"
+        /// </para>
+        /// </summary>
+        public float screenSpaceErrorDistancePer
+        {
+            get => this._screenSpaceErrorDistancePer;
+            set
+            {
+                this._screenSpaceErrorDistancePer = value;
+                this.RecreateTileset();
+            }
+        }
+
+        [SerializeField]
+        private List<double2> _filterRectangeLeftBottom;
+
+        /// <summary>
+        /// 过滤范围设定左下角        
+        /// </para>
+        /// </summary>
+        public List<double2> filterRectangeLeftBottom
+        {
+            get => this._filterRectangeLeftBottom;
+            set
+            {
+                this._filterRectangeLeftBottom = value;
+                this.RecreateTileset();
+            }
+        }
+
+        [SerializeField]
+        private List<double2> _filterRectangeRightUp;
+
+        /// <summary>
+        /// 过滤范围设定左下角        
+        /// </para>
+        /// </summary>
+        public List<double2> filterRectangeRightUp
+        {
+            get => this._filterRectangeRightUp;
+            set
+            {
+                this._filterRectangeRightUp = value;
+                this.RecreateTileset();
+            }
+        }
+
         [SerializeField]
         private bool _preloadAncestors = true;
 

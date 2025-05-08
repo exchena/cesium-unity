@@ -30,6 +30,7 @@
 #include <DotNet/System/Threading/Tasks/Task1.h>
 #include <DotNet/System/Threading/Tasks/TaskCompletionSource1.h>
 #include <DotNet/Unity/Mathematics/double3.h>
+#include <DotNet/Unity/Mathematics/double2.h>
 #include <DotNet/UnityEngine/Application.h>
 #include <DotNet/UnityEngine/Camera.h>
 #include <DotNet/UnityEngine/Component.h>
@@ -138,7 +139,6 @@ void Cesium3DTilesetImpl::Update(
       viewStates,
       DotNet::UnityEngine::Time::deltaTime());
   this->_pTileset->loadTiles();
-
   this->updateLastViewUpdateResultState(tileset, updateResult);
 
   for (auto pTile : updateResult.tilesFadingOut) {
@@ -567,6 +567,30 @@ void Cesium3DTilesetImpl::LoadTileset(
     const DotNet::CesiumForUnity::Cesium3DTileset& tileset) {
   TilesetOptions options{};
   options.maximumScreenSpaceError = tileset.maximumScreenSpaceError();
+  options.screenSpaceErrorDistancePer = tileset.screenSpaceErrorDistancePer();
+
+  System::Collections::Generic::List1<::DotNet::Unity::Mathematics::double2>
+      filterRectangeLeftBottom = tileset.filterRectangeLeftBottom();
+  System::Collections::Generic::List1<::DotNet::Unity::Mathematics::double2>
+      filterRectangeRightUp = tileset.filterRectangeRightUp();
+  int32_t len = filterRectangeLeftBottom.Count();
+  if (len > filterRectangeRightUp.Count()) {
+    len = filterRectangeRightUp.Count();
+  }
+
+  for (int32_t i = 0; i < len; ++i) {
+    const ::DotNet::Unity::Mathematics::double2 rectangeLeftBottom =
+        filterRectangeLeftBottom[i];
+    const ::DotNet::Unity::Mathematics::double2 rectangeRightUp =
+        filterRectangeRightUp[i];
+    CesiumGeospatial::GlobeRectangle globalRectangle(
+        rectangeLeftBottom.x,
+        rectangeLeftBottom.y,
+        rectangeRightUp.x,
+        rectangeRightUp.y);
+    options.filterRectange.push_back(globalRectangle);
+  }
+
   options.preloadAncestors = tileset.preloadAncestors();
   options.preloadSiblings = tileset.preloadSiblings();
   options.forbidHoles = tileset.forbidHoles();

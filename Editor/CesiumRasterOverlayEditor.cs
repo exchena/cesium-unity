@@ -19,6 +19,10 @@ namespace CesiumForUnity
         private SerializedProperty _maximumSimultaneousTileLoads;
         private SerializedProperty _subTileCacheBytes;
 
+        private SerializedProperty _screenSpaceErrorDistancePer;
+        private SerializedProperty _filterRectangeLeftBottom;
+        private SerializedProperty _filterRectangeRightUp;
+
         private int _materialCRC = 0;
         private string[] _materialKeys;
         private int _selectedMaterialKeyIndex;
@@ -40,6 +44,15 @@ namespace CesiumForUnity
             this._maximumSimultaneousTileLoads =
                 this.serializedObject.FindProperty("_maximumSimultaneousTileLoads");
             this._subTileCacheBytes = this.serializedObject.FindProperty("_subTileCacheBytes");
+
+            this._screenSpaceErrorDistancePer =
+                this.serializedObject.FindProperty("_screenSpaceErrorDistancePer");
+
+            this._filterRectangeLeftBottom =
+                this.serializedObject.FindProperty("_filterRectangeLeftBottom");
+
+            this._filterRectangeRightUp =
+                this.serializedObject.FindProperty("_filterRectangeRightUp");
 
             this._materialKeys = new string[] { };
         }
@@ -195,6 +208,31 @@ namespace CesiumForUnity
                 "screen.");
             EditorGUILayout.PropertyField(
                 this._maximumScreenSpaceError, maximumScreenSpaceErrorContent);
+
+            GUIContent screenSpaceErrorDistancePerContent =
+                new GUIContent("Screen Space Error Distance Per",
+                "根据摄像机到渲染块的距离，放大Maximum Screen Space Error." +
+                "\n\n" +
+                "值越小，相同距离放大的倍数越大");
+            EditorGUILayout.PropertyField(
+                this._screenSpaceErrorDistancePer, screenSpaceErrorDistancePerContent);
+
+            GUILayout.Label("filter Rectange:LeftBottom与RightUp数目保持一致", EditorStyles.boldLabel);
+            GUIContent filterRectangeLeftBottomContent =
+                new GUIContent("LeftBottom",
+                "设定不显示基础地图的区域" +
+                "\n\n" +
+                "左下角（double west, double south）");
+            EditorGUILayout.PropertyField(
+                this._filterRectangeLeftBottom, filterRectangeLeftBottomContent);
+
+            GUIContent filterRectangeRightUpContent =
+                new GUIContent("RightUp",
+                "设定不显示基础地图的区域" +
+                "\n\n" +
+                "右上角（double east,double north）");
+            EditorGUILayout.PropertyField(
+                this._filterRectangeRightUp, filterRectangeRightUpContent);
 
             GUIContent maximumTextureSizeContent = new GUIContent(
                 "Maximum Texture Size",

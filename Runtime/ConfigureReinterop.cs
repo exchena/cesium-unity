@@ -57,7 +57,7 @@ namespace CesiumForUnity
         public void ExposeToCPP()
         {
             Camera c = Camera.main;
-
+            
             Transform t = c.transform;
             Vector3 u = t.up;
             Vector3 f = t.forward;
@@ -264,6 +264,9 @@ namespace CesiumForUnity
             tileset.opaqueMaterial = tileset.opaqueMaterial;
             tileset.enabled = tileset.enabled;
             tileset.maximumScreenSpaceError = tileset.maximumScreenSpaceError;
+            tileset.screenSpaceErrorDistancePer = tileset.screenSpaceErrorDistancePer;
+            tileset.filterRectangeLeftBottom = tileset.filterRectangeLeftBottom;
+            tileset.filterRectangeRightUp = tileset.filterRectangeRightUp;
             tileset.preloadAncestors = tileset.preloadAncestors;
             tileset.preloadSiblings = tileset.preloadSiblings;
             tileset.forbidHoles = tileset.forbidHoles;
@@ -303,6 +306,9 @@ namespace CesiumForUnity
             overlay.materialKey = overlay.materialKey;
             overlay.showCreditsOnScreen = overlay.showCreditsOnScreen;
             overlay.maximumScreenSpaceError = overlay.maximumScreenSpaceError;
+            overlay.screenSpaceErrorDistancePer = overlay.screenSpaceErrorDistancePer;
+            overlay.filterRectangeLeftBottom = overlay.filterRectangeLeftBottom;
+            overlay.filterRectangeRightUp = overlay.filterRectangeRightUp;
             overlay.maximumTextureSize = overlay.maximumTextureSize;
             overlay.maximumSimultaneousTileLoads = overlay.maximumSimultaneousTileLoads;
             overlay.subTileCacheBytes = overlay.subTileCacheBytes;
@@ -545,7 +551,7 @@ namespace CesiumForUnity
 
             CesiumSimplePlanarEllipsoidCurve planarEllipsoidCurve = CesiumSimplePlanarEllipsoidCurve.FromCenteredFixedCoordinates(
                 CesiumEllipsoid.WGS84,
-                new double3(0, 0, 0),
+                new double3(0, 0, 0), 
                 new double3(0, 0, 0));
             CesiumEllipsoid ellipsoid = CesiumEllipsoid.WGS84;
             ellipsoid.radii = new double3(0.0, 0.0, 0.0);

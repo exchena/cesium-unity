@@ -16,7 +16,7 @@ namespace CesiumForUnity
         private SerializedProperty _ionAccessToken;
         private SerializedProperty _ionServer;
 
-        private SerializedProperty _maximumScreenSpaceError;
+        private SerializedProperty _maximumScreenSpaceError;        
 
         private SerializedProperty _preloadAncestors;
         private SerializedProperty _preloadSiblings;
@@ -43,6 +43,13 @@ namespace CesiumForUnity
         private SerializedProperty _logSelectionStats;
 
         private SerializedProperty _createPhysicsMeshes;
+
+        private SerializedProperty _screenSpaceErrorDistancePer;
+
+        private SerializedProperty _filterRectangeLeftBottom;
+        private SerializedProperty _filterRectangeRightUp;
+
+
 
         private void OnEnable()
         {
@@ -94,6 +101,15 @@ namespace CesiumForUnity
 
             this._createPhysicsMeshes =
                 this.serializedObject.FindProperty("_createPhysicsMeshes");
+
+            this._screenSpaceErrorDistancePer =
+                this.serializedObject.FindProperty("_screenSpaceErrorDistancePer");
+
+            this._filterRectangeLeftBottom =
+                this.serializedObject.FindProperty("_filterRectangeLeftBottom");
+
+            this._filterRectangeRightUp =
+                this.serializedObject.FindProperty("_filterRectangeRightUp");
         }
 
         public override void OnInspectorGUI()
@@ -120,6 +136,7 @@ namespace CesiumForUnity
             this.DrawDebugProperties();
             EditorGUILayout.Space(5);
             this.DrawPhysicsProperties();
+
 
             this.serializedObject.ApplyModifiedProperties();
         }
@@ -234,7 +251,32 @@ namespace CesiumForUnity
                 "value of 16.0 corresponds to the standard value for quantized-mesh " +
                 "terrain of 2.0.");
             EditorGUILayout.PropertyField(
-                this._maximumScreenSpaceError, maximumScreenSpaceErrorContent);
+                this._maximumScreenSpaceError, maximumScreenSpaceErrorContent);            
+
+            GUIContent screenSpaceErrorDistancePerContent =
+                new GUIContent("Screen Space Error Distance Per",
+                "根据摄像机到渲染块的距离，放大Maximum Screen Space Error." +
+                "\n\n" +
+                "值越小，相同距离放大的倍数越大");
+            EditorGUILayout.PropertyField(
+                this._screenSpaceErrorDistancePer, screenSpaceErrorDistancePerContent);
+
+            GUILayout.Label("filter Rectange:LeftBottom与RightUp数目保持一致", EditorStyles.boldLabel);
+            GUIContent filterRectangeLeftBottomContent =
+                new GUIContent("LeftBottom",
+                "设定不显示基础地图的区域" +
+                "\n\n" +
+                "左下角（double west, double south）");
+            EditorGUILayout.PropertyField(
+                this._filterRectangeLeftBottom, filterRectangeLeftBottomContent);
+
+            GUIContent filterRectangeRightUpContent =
+                new GUIContent("RightUp",
+                "设定不显示基础地图的区域" +
+                "\n\n" +
+                "右上角（double east,double north）");
+            EditorGUILayout.PropertyField(
+                this._filterRectangeRightUp, filterRectangeRightUpContent);
         }
 
         private void DrawTileLoadingProperties()
